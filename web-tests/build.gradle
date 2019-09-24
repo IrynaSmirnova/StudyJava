@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:6.11'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+}
