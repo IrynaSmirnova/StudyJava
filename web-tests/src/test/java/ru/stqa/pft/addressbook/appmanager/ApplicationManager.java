@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.BrowserType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.remote.BrowserType.FIREFOX;
 
@@ -17,8 +18,9 @@ public class ApplicationManager {
     public WebDriver driver;
 
     private SessionHelper sessionHelper;
-    private NavigationHelper navigationHelper;
-    private GroupHelper groupHelper;
+    private NavigationBar navigationBar;
+    private GroupPage groupPage;
+    private ContactPage contactPage;
     JavascriptExecutor js;
     private Map<String, Object> vars;
     private String browser;
@@ -38,10 +40,13 @@ public class ApplicationManager {
 
         js = (JavascriptExecutor) driver;
         vars = new HashMap<String, Object>();
+        driver.manage().timeouts().pageLoadTimeout(30000, TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(30000, TimeUnit.MILLISECONDS);
         driver.get("http://localhost:8080/addressbook/");
-        groupHelper = new GroupHelper(driver);
-        navigationHelper = new NavigationHelper(driver);
+        groupPage = new GroupPage(driver);
+        navigationBar = new NavigationBar(driver);
         sessionHelper = new SessionHelper(driver);
+        contactPage = new ContactPage(driver);
 
         sessionHelper.login("admin", "secret");
     }
@@ -50,11 +55,14 @@ public class ApplicationManager {
         driver.quit();
     }
 
-    public GroupHelper getGroupHelper() {
-        return groupHelper;
+    public GroupPage groupPage() {
+        return groupPage;
     }
 
-    public NavigationHelper getNavigationHelper() {
-        return navigationHelper;
+    public NavigationBar navigationBar() {
+        return navigationBar;
+    }
+    public ContactPage contactPage() {
+        return contactPage;
     }
 }
